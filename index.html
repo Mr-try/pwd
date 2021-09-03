@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>密码</title>
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section>密码</section>
+          <section>password<sub style="color:#de1c31">口令</sub></section>
+          <section>あんごう<sub style="color:#de1c31">暗号</sub></section>
+        </section>
+        <section>
+          <p class="">请登录</p>
+          <p class="fragment fade-up">龙门飞甲</p>
+          <p class="fragment fade-up">天王盖地虎</p>
+        </section>
+
+        <section>
+          <p>凯撒密码</p>
+          <div style="text-align: center; font-size: 16px">
+            凯撒密码是一种相传古罗马尤利乌斯·凯撒使用过的密码，这个加密的方式非常简单，
+            将原文按照按照一定字数进行平移后，得到密文
+          </div>
+          <pre class="fragment fade-up" style="text-align: center">
+              <code data-trim data-noescape>
+                abc ---右移3位--- def
+              </code>
+            </pre>
+          <div style="text-align: center; font-size: 16px">
+            再将密文按照按照一定字数向相反的方向平移，得到密文原文
+          </div>
+          <pre class="fragment fade-up" style="text-align: center">
+            <code data-trim data-noescape>
+              def ---左移3位--- abc
+            </code>
+          </pre>
+          <pre class="fragment fade-up" style="text-align: center">
+            <code data-trim data-noescape>
+              密钥空间:25
+            </code>
+          </pre>
+          <pre class="fragment fade-up" style="text-align: center">
+            <code data-trim data-noescape>
+              仲夏夜 ---"下"移1位--- 叔秋白
+            </code>
+          </pre>
+        </pre>
+        </section>
+
+        <section>
+          <p>简单替换</p>
+          <div style="text-align: center; font-size: 16px">
+            凯撒密码太简单了，我们来尝试另一种加密方式--简单替换法，即在一串文本中。每个字符都随机对应另一个字母。
+          </div>
+          <pre class="fragment fade-up" style="text-align: center">
+            <code data-trim data-noescape>
+              what ---替换--- ojbk
+              w->o
+              h->j
+              a->b
+              t->k
+            </code>
+          </pre>
+          <pre class="fragment fade-up" style="text-align: center">
+            <code data-trim data-noescape>
+              密钥空间:26！= 403291461126605635584000000
+            </code>
+          </pre>
+          <a class="fragment fade-up" style="color: #de1c31;font-size: 20px;">如何破解?</a>
+        </pre>
+        </section>
+
+        <section>
+          <p>对称加密算法：AES</p>
+          <p>非对称加密算法：RSA</p>
+          <p>Hash 算法：MD5</p>
+        </section>
+        <section>
+          <section>
+            <p>AES</p>
+            <img src="./image/pwd.png"  style="width: 400px;"/>
+          </section>
+          <section>
+            <p>加解密步骤</p>
+            <img src="./image/aes.jpeg"  style="width: 400px;"/>
+            <div style="color:#de1c31;font-size: 16px;">优点:速度快</div>
+            <div style="color:#de1c31;font-size: 16px;">缺点:密钥配送问题</div>
+          </section>
+          <section>
+            <p>破解(AES-128)</p>
+            <div style="color:#de1c31;font-size: 24px;">天下武功,唯快不破</div>
+            <div style="font-size: 24px;">平均需要尝试 <span style="color:#de1c31">2<sup>127</sup></span> 次</div>
+            <div>
+                假设AES的运算效率为2.564410^19 ≈ 2^64.4753次/秒，则进行2^127次AES运算所需要的时间为：
+2^127 / 2^64.4753 ≈ 2^62.5247秒 ≈ 6.6345 10^18 秒 ≈ 1.8429 10^15 小时 ≈ 7.6789 10^13 天 ≈ 2.104 * 10^11年 ≈ 210,400,000,000 年
+            </div>
+          </section>
+        </section>
+        <section>
+          <section>
+              <p>RSA</p>
+              <img src="./image/rsa.png"  style="width: 400px;"/>
+          </section>
+          <section>
+            <p>加解密步骤</p>
+            <pre style="text-align: center">
+              <code data-trim data-noescape>
+                加密过程：用原文m的e次方对n求余数，得到的值就是密文c。（mod 求余数）
+                c = E(m) = m^e mod n
+              </code>
+            </pre>
+            <pre style="text-align: center">
+              <code data-trim data-noescape>
+                解密过程：用密文c的d次方对n求余数，得到的值就是原文m。
+                m = D(c) = c^d mod n
+              </code>
+            </pre>
+            <pre style="text-align: center">
+              <code data-trim data-noescape>
+                e+n = 公钥 ≈ e
+                d+n = 私钥 ≈ d
+              </code>
+            </pre>
+          </section>
+          <section>
+            <div>生成e,d,n</div>
+            <div style="font-size: 24px;">
+              <p>我们先准备两个（很大的）质数，p q 。p * q = N   p = 17 , q = 19, n = 323 </p>
+              <p>我们再来生成一个l,l 为 p-1 和 q-1的最小公倍数,即144，即 16 和 18 的最小公倍数</p>
+              <p>这时候我们来生成一个E, 
+                E必须满足两个条件：介于1和l之间；并且E和l的最大公约数为1，即两个数互质。
+                满足E条件的数字有很多，这里我们取一个 5
+              </p>
+              <p>
+                最后还要生成 D , 这个数字要满足以下条件： 介于 1和l之间；E * D mod l = 1。
+                满足D条件的数字有很多，这里我们取一个 29， 5 * 29 mod 144 = 1
+              </p>
+              <p>
+                到这里为止，我们可以得到公钥 29 323 和 私钥 5 323 
+              </p>
+            </div>
+          </section>
+        </section>
+        <section>
+          <p>破解</p>
+            <div style="color:#de1c31;font-size: 16px;">天下武功,唯快不破;大质数分解</div>
+          <p>323 = 17*19</p>
+            <div  class="fragment fade-up" style="word-break: break-all;font-size: 24px;">
+              123018668453011775513049495838496272077285356959533479219732245215172640050726
+              365751874520219978646938995647494277406384592519255732630345373154826850791702
+              6122142913461670429214311602221240479274737794080665351419597459856902143413
+              <a style="color:#de1c31">=</a> 33478071698956898786044169848212690817704794983713768568912431388982883793878002287614711652531743087737814467999489
+              <a style="color:#de1c31">×</a> 36746043666799590428244633799627952632279158164343087642676032283815739666511279233373417143396810270092798736308917
+            </div>
+          <p class="fragment fade-up">
+            其他:旁道攻击,量子计算
+          </p>
+        </section>
+        <section>
+          <div>实战:如何"偷"数据</div>
+          <pre style="text-align: center">
+            <code data-trim data-noescape>
+                一:前端随机生成AES的密钥,从服务器获取RSA的公钥,
+                对AES的密钥进行非对称加密
+            </code>
+          </pre>
+          <pre style="text-align: center">
+            <code data-trim data-noescape>
+                二:把加密后的密钥在请求头中传给服务器,
+                用AES对灰度数据进行加密,回传服务器
+            </code>
+          </pre>
+          <pre style="text-align: center">
+            <code data-trim data-noescape>
+                三:对灰度数据进行md5校验,验证数据是否被修改
+            </code>
+          </pre>
+          <pre style="text-align: center">
+            <code data-trim data-noescape>
+                四:有无漏洞?
+            </code>
+          </pre>
+        </section>
+        <section>
+          <p>证书</p>
+          <p>数字签名</p>
+          <p>反爬</p>
+          <p>网络安全</p>
+        </section>
+      </div>
+    </div>
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        slideNumber: true ,
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
